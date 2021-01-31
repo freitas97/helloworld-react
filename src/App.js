@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import "./config/ReactotronConfig";
+import { toast } from "react-toastify";
+import { store, persistor } from "./store";
+
+import history from "./services/history";
+import Routes from "./routes";
+import ScrollFixer from "./ScrollFixer";
+
+import GlobalStyle from "./styles/global";
+import "react-toastify/dist/ReactToastify.css";
+import "swiper/css/swiper.css";
+
+toast.configure();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GlobalStyle />
+        <Router history={history}>
+          <ScrollFixer />
+          <Routes />
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 
